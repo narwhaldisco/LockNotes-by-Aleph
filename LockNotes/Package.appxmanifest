@@ -1,42 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-
-  <Identity Name="5c907bba-fbaf-4a54-ad46-b0b2bf178620"
-            Publisher="CN=Nicholas"
-            Version="1.0.0.0" />
-
+  <Identity Name="5c907bba-fbaf-4a54-ad46-b0b2bf178620" Publisher="CN=Nicholas" Version="1.0.0.0" />
   <Properties>
     <DisplayName>LockNotes</DisplayName>
-    <PublisherDisplayName>Nicholas</PublisherDisplayName>
+    <PublisherDisplayName>Aleph</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.2.1</OSMinVersion>
     <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-        Executable="$targetnametoken$.exe"
-        EntryPoint="LockNotes.App">
-        <VisualElements
-            DisplayName="LockNotes"
-            Logo="Assets\Logo.png"
-            SmallLogo="Assets\SmallLogo.png"
-            Description="LockNotes"
-            ForegroundText="light"
-            BackgroundColor="#464646">
-            <DefaultTile ShowName="allLogos" />
-            <SplashScreen Image="Assets\SplashScreen.png" />
-        </VisualElements>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="LockNotes.App">
+      <VisualElements DisplayName="LockNotes" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="LockNotes" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" WideLogo="images\tile-sdk.png" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+        <LockScreen Notification="badgeAndTileText" BadgeLogo="images\logo-lockscreen.png" />
+      </VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="MainPage.xaml">
+          <BackgroundTasks>
+            <Task Type="pushNotification" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
 </Package>
