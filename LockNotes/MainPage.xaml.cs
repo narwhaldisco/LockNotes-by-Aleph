@@ -11,6 +11,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Notifications;
+using Windows.Data.Xml.Dom;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.ApplicationModel.DataTransfer;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -47,6 +51,41 @@ namespace LockNotes
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
+        }
+
+        private void Send_Notif(object sender, RoutedEventArgs e)
+        {
+
+            //Updates Live Tile and Lock Screen if pinned
+            XmlDocument tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWideImageAndText01);
+
+            TileUpdateManager.GetTemplateContent(TileTemplateType.TileWideImageAndText01);
+
+            XmlNodeList tileTextAttributes = tileXml.GetElementsByTagName("text");
+            tileTextAttributes[0].InnerText = input.Text;
+
+            XmlNodeList tileImageAttributes = tileXml.GetElementsByTagName("image");
+            ((XmlElement)tileImageAttributes[0]).SetAttribute("src", "ms-appx:///Assets/wideLogo_up.png");
+
+
+            /*
+            XmlDocument squareTileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquareText04);
+            XmlNodeList squareTileTextAttributes = squareTileXml.GetElementsByTagName("text");
+
+            squareTileTextAttributes[0].AppendChild(squareTileXml.CreateTextNode(input.Text));
+            IXmlNode node = tileXml.ImportNode(squareTileXml.GetElementsByTagName("binding").Item(0), true);
+            tileXml.GetElementsByTagName("visual").Item(0).AppendChild(node);
+             * */
+
+            TileNotification tileNotification = new TileNotification(tileXml);
+
+            //Sets when the notification should expire
+            //tileNotification.ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(10);
+
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
+
+            //Update feedback
+            feedback.Text = "Lock Screen and Tile updated";
         }
     }
 }
